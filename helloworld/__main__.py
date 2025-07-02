@@ -28,24 +28,42 @@ hello_skill = AgentSkill(
     examples=["hi", "hello world"]
 )
 
+# 定义 Extended Skill
+extended_skill = AgentSkill(
+    id="extended_greeting",
+    name="Enthusiastic Greeting",
+    description="Returns a more enthusiastic greeting for authenticated users.",
+    tags=["greeting", "enthusiastic"],
+    examples=["hello", "hi", "I am back"]
+)
+
 # 定义 AgentCard
 agent_card = AgentCard(
-    name="HelloWorldAgent",
+    name="Hello World Agent",
     description="A simple agent that returns hello world.",
     url="http://localhost:8000",  # 启动时请确保端口一致
-    version="0.1.0",
+    version="1.0.0",
     defaultInputModes=["text"],
     defaultOutputModes=["text"],
     capabilities=AgentCapabilities(),
     skills=[hello_skill]
 )
 
+# 定义 Extended AgentCard
+extended_agent_card = agent_card.model_copy(update={
+    "name": "Enthusiastic Hello Agent",
+    "description": "An agent that greets authenticated users with extra enthusiasm.",
+    "skills": [hello_skill, extended_skill],
+    "version": "1.0.1"
+})
+
 # 创建 EchoAgentExecutor 实例
 agent_executor = EchoAgentExecutor()
 
-# 创建 A2AStarletteApplication
+# 创建 A2AStarletteApplication，分别注册两个 agent_card
 app = A2AStarletteApplication(
     agent_card=agent_card,
+    extended_agent_card=extended_agent_card,
     http_handler=DefaultRequestHandler(
         agent_executor=agent_executor,
         task_store=InMemoryTaskStore()

@@ -23,7 +23,7 @@ async def test_root():
     async with httpx.AsyncClient(base_url=SERVER_URL) as ac:
         resp = await ac.get("/.well-known/agent.json")
         assert resp.status_code == 200
-        assert resp.json()["name"].startswith("HelloWorldAgent")
+        assert resp.json()["name"] == "Hello World Agent"
 
 @pytest.mark.asyncio
 async def test_a2a_message():
