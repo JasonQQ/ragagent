@@ -45,8 +45,9 @@ agent_card = AgentCard(
     version="1.0.0",
     defaultInputModes=["text"],
     defaultOutputModes=["text"],
-    capabilities=AgentCapabilities(),
-    skills=[hello_skill]
+    capabilities=AgentCapabilities(streaming=True),
+    skills=[hello_skill],
+    supportsAuthenticatedExtendedCard=True,
 )
 
 # 定义 Extended AgentCard
